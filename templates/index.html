@@ -80,31 +80,26 @@
             </thead>
             <tbody id="rows">
               {% for c in contacts %}
-              <tr>
-                <td class="id text-secondary">{{ c['id'] }}</td>
-                <td class="name">{{ c['name'] }}</td>
-                <td class="phone text-nowrap">{{ c['phone'] }}</td>
-                <td class="text-end">
-                  <div class="d-inline-flex gap-2">
-                    <button
-                      type="button"
-                      class="btn btn-sm btn-outline-secondary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editModal"
-                      data-id="{{ c['id'] }}"
-                      data-name="{{ c['name'] }}"
-                      data-phone="{{ c['phone'] }}"
-                    >Edit</button>
+<tr {% if c['id'] in recent_ids %}class="highlight"{% endif %}>
+    <td>{{ c['name'] }}</td>
+    <td>{{ c['phone'] }}</td>
+    <td>
+        <form method="POST" style="display:inline;">
+            <input type="hidden" name="contact_id" value="{{ c['id'] }}">
+            <input type="hidden" name="action" value="delete">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Delete</button>
+        </form>
+        <form method="POST" style="display:inline;">
+            <input type="hidden" name="contact_id" value="{{ c['id'] }}">
+            <input type="hidden" name="action" value="update">
+            <input type="text" name="name" value="{{ c['name'] }}" class="form-control d-inline-block" style="width: 120px;">
+            <input type="text" name="phone" value="{{ c['phone'] }}" class="form-control d-inline-block" style="width: 120px;">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Update</button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
 
-                    <form method="POST" action="{{ url_for('index') }}" onsubmit="return confirm('Delete this contact?')">
-                      <input type="hidden" name="contact_id" value="{{ c['id'] }}">
-                      <input type="hidden" name="action" value="delete">
-                      <button class="btn btn-sm btn-outline-danger">Delete</button>
-                    </form>
-                  </div>
-                </td>
-              </tr>
-              {% endfor %}
               {% if not contacts %}
               <tr><td colspan="4" class="text-center text-secondary py-4">No contacts found.</td></tr>
               {% endif %}
