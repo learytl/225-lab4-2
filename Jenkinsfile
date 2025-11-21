@@ -143,13 +143,13 @@ pipeline {
     post {
 
         success {
-            slackSend color: "good", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+            slackSend color: "good", message: "Build Lab 5.1 SUCCESS: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         unstable {
-            slackSend color: "warning", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+            slackSend color: "warning", message: "Build Lab 5.1 UNSTABLE: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
         failure {
-            slackSend color: "danger", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
+            slackSend color: "danger", message: "Build Lab 5.1 FAILURE: ${env.JOB_NAME} ${env.BUILD_NUMBER}"
         }
     }
 }
