@@ -86,7 +86,10 @@ def index():
         (per_page, offset)
     ).fetchall()
     db.close()
-
+    
+# Highlight the first 3 contacts on the current page
+    recent_ids = [c['id'] for c in contacts[:3]] 
+    
     pages = max(1, math.ceil(total / per_page))
     has_prev = page > 1
     has_next = page < pages
@@ -96,6 +99,7 @@ def index():
     return render_template(
         'index.html',
         contacts=contacts,
+        recent_ids=recent_ids,
         page=page, pages=pages, per_page=per_page,
         has_prev=has_prev, has_next=has_next, total=total,
         start_page=start_page, end_page=end_page
