@@ -24,5 +24,9 @@ h1, h2, h3, .h1, .h2, .h3 { font-family: 'Oswald', sans-serif; font-weight: 500;
 .page-link:hover { background-color: rgba(26, 115, 232, 0.1) !important; border-color: #1A73E8 !important; color: #155AB6 !important; }
 .page-item.active .page-link { background-color: #1A73E8 !important; border-color: #1A73E8 !important; color: #fff !important; }
 [data-bs-theme="dark"] .page-link { color: #BBDEFB !important; }
-[data-bs-theme="dark"] .page-item.active .page-link { background-color: #1A73E8 !important; border-color: #1A73E8 !important; color: #fff !important; }
+[data-bs-theme="dark"] .page-item.active .page-link { background-color: #1A73E8 !important; border-color: #1A73E8 !important; color: #fff !important; } 
+
+.recent-contact {
+    background-color: #FFF3CD; /* light yellow */
+}
 
