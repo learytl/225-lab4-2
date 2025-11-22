@@ -21,8 +21,7 @@ def init_db():
             CREATE TABLE IF NOT EXISTS contacts (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                phone TEXT NOT NULL,
-                favorite INTEGER DEFAULT 0
+                phone TEXT NOT NULL
             );
         ''')
         db.commit()
@@ -83,13 +82,10 @@ def index():
     db = get_db()
     total = db.execute('SELECT COUNT(*) FROM contacts').fetchone()[0]
     contacts = db.execute(
-        'SELECT * FROM contacts ORDER BY favorite DESC, id DESC LIMIT ? OFFSET ?',
+        'SELECT * FROM contacts ORDER BY id DESC LIMIT ? OFFSET ?',
         (per_page, offset)
     ).fetchall()
     db.close()
-
-    # Highlight the first 3 contacts on the current page
-    recent_ids = [c['id'] for c in contacts[:3]] 
 
     pages = max(1, math.ceil(total / per_page))
     has_prev = page > 1
@@ -100,19 +96,10 @@ def index():
     return render_template(
         'index.html',
         contacts=contacts,
-        recent_ids=recent_ids,
         page=page, pages=pages, per_page=per_page,
         has_prev=has_prev, has_next=has_next, total=total,
         start_page=start_page, end_page=end_page
     )
-
-@app.route('/toggle_favorite/<int:contact_id>', methods=['POST'])
-def toggle_favorite(contact_id):
-    db = get_db()
-    db.execute('UPDATE contacts SET favorite = NOT favorite WHERE id = ?', (contact_id,))
-    db.commit()
-    db.close()
-    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
