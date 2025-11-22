@@ -89,7 +89,9 @@ def index():
     
 # Highlight the first 3 contacts on the current page
     recent_ids = [c['id'] for c in contacts[:3]] 
-    
+    print("Contacts:", [c['id'] for c in contacts])
+print("Recent IDs:", recent_ids)
+
     pages = max(1, math.ceil(total / per_page))
     has_prev = page > 1
     has_next = page < pages
