@@ -80,7 +80,8 @@
             </thead>
             <tbody id="rows">
   {% for c in contacts %}
-  <tr {% if c['id'] in recent_ids %}class="highlight"{% endif %}>
+  <tr {% if c['id'] in recent_ids %}class="highlight"{% endif %}
+    {% if c['favorite'] %}class="favorite"{% endif %}>
     <td class="id text-secondary">{{ c['id'] }}</td>
     <td class="name">{{ c['name'] }}</td>
     <td class="phone text-nowrap">{{ c['phone'] }}</td>
