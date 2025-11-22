@@ -79,33 +79,42 @@
               </tr>
             </thead>
             <tbody id="rows">
-  {% for c in contacts %}
-  <tr {% if c['id'] in recent_ids %}class="highlight"{% endif %}
-    {% if c['favorite'] %}class="favorite"{% endif %}>
-    <td class="id text-secondary">{{ c['id'] }}</td>
-    <td class="name">{{ c['name'] }}</td>
-    <td class="phone text-nowrap">{{ c['phone'] }}</td>
-    <td class="text-end">
-      <div class="d-inline-flex gap-2">
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary"
-          data-bs-toggle="modal"
-          data-bs-target="#editModal"
-          data-id="{{ c['id'] }}"
-          data-name="{{ c['name'] }}"
-          data-phone="{{ c['phone'] }}"
-        >Edit</button>
+ {% for c in contacts %}
+<tr class="{% if c['id'] in recent_ids %}highlight {% endif %}{% if c['favorite'] %}favorite{% endif %}">
+  <td class="id text-secondary">{{ c['id'] }}</td>
+  <td class="name">{{ c['name'] }}</td>
+  <td class="phone text-nowrap">{{ c['phone'] }}</td>
+  <td class="text-end">
+    <div class="d-inline-flex gap-2">
+      <!-- Favorite toggle -->
+      <form method="POST" action="{{ url_for('toggle_favorite', contact_id=c['id']) }}">
+        <button type="submit" class="btn btn-sm" style="color: {{ 'gold' if c['favorite'] else '#ccc' }}">
+          &#9733;
+        </button>
+      </form>
 
-        <form method="POST" action="{{ url_for('index') }}" onsubmit="return confirm('Delete this contact?')">
-          <input type="hidden" name="contact_id" value="{{ c['id'] }}">
-          <input type="hidden" name="action" value="delete">
-          <button class="btn btn-sm btn-outline-danger">Delete</button>
-        </form>
-      </div>
-    </td>
-  </tr>
-  {% endfor %}
+      <!-- Edit button -->
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-secondary"
+        data-bs-toggle="modal"
+        data-bs-target="#editModal"
+        data-id="{{ c['id'] }}"
+        data-name="{{ c['name'] }}"
+        data-phone="{{ c['phone'] }}"
+      >Edit</button>
+
+      <!-- Delete button -->
+      <form method="POST" action="{{ url_for('index') }}" onsubmit="return confirm('Delete this contact?')">
+        <input type="hidden" name="contact_id" value="{{ c['id'] }}">
+        <input type="hidden" name="action" value="delete">
+        <button class="btn btn-sm btn-outline-danger">Delete</button>
+      </form>
+    </div>
+  </td>
+</tr>
+{% endfor %}
+
   {% if not contacts %}
   <tr><td colspan="4" class="text-center text-secondary py-4">No contacts found.</td></tr>
   {% endif %}
